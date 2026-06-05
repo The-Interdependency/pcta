@@ -1,14 +1,17 @@
 """Layer-2 tensor objects: the opaque circle carrier and the seed it produces.
 
-pcta consumes **circle-tensors** (layer-1 / `pcna` output — themselves tensors)
-and organizes 7 of them into a **seed**, which is itself a tensor. Both objects
-are *structural scaffold*: their geometry routes, it does not learn. Per the
-stack map, back-propagation lives only in layer 1 (`pcna`); nothing here ever
-appears on an autodiff tape, so ``requires_grad`` is always ``False``.
+pcta consumes **circle-tensors** (layer-1 / `pcna` output — circles carried by
+UCNS objects, each itself a tensor) and organizes a **variable** number of them
+into a **seed**, which is itself a tensor. Both objects are *structural
+scaffold*: their geometry routes, it does not learn. Per the stack map,
+back-propagation lives only in layer 1 (`pcna`); nothing here ever appears on an
+autodiff tape, so ``requires_grad`` is always ``False``.
 
-The circle's *internal* structure (7 tensors per circle, the {7/2} step) is
-layer-1's business; pcta treats a circle as an **opaque payload host** with a
-stable identity and an anchor position, and never inspects or mutates it.
+The circle's *internal* structure (its tensors, the layer-1 step) is `pcna`'s
+business; pcta treats a circle as an **opaque payload host** with a stable
+identity and an anchor position, and never inspects or mutates it. The number of
+circles per seed is not fixed — the only invariant is that every circle is a
+tensor and the seed is itself a tensor.
 """
 from __future__ import annotations
 
@@ -37,10 +40,10 @@ class CircleTensor:
 
 
 class Seed:
-    """A seed tensor: a heptagram grouping of `CIRCLES_PER_SEED` circle-tensors.
+    """A seed tensor: a star-polygon grouping of a variable number of circles.
 
-    The seed is itself a tensor (it can be hosted by a layer-3 core exactly as a
-    circle is hosted here). Its geometry — the anchor visitation order — is
+    The seed is itself a tensor (it can be hosted by a layer-3 PTCA core exactly
+    as a circle is hosted here). Its geometry — the anchor visitation order — is
     frozen structural scaffold produced by ``compose_seed``; it does not learn.
     """
 
@@ -84,13 +87,15 @@ class Seed:
 
 @dataclass(frozen=True)
 class SeedMotion:
-    """The structural **motion** a seed hands upward (to layer 3 / ZFAE).
+    """The structural **motion** a seed hands upward (to layer-3 PTCA core
+    composition, and ultimately ZFAE inference).
 
     "Motion" is described here by *role* — the structural arrangement a seed
     contributes — and its formal definition is `hmmm` in the stack canon (do not
     over-specify it). This carrier captures the observable structure only: the
-    seed's identity and the heptagram order its circles were routed in. It holds
-    no weights and no gradient (those are pcna's `weights`, a separate channel).
+    seed's identity and the star-polygon order its circles were routed in. It
+    holds no weights and no gradient (those are pcna's `weights`, a separate
+    channel).
     """
 
     seed_identity: Optional[str]

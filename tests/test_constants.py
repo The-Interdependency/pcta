@@ -4,7 +4,8 @@ from __future__ import annotations
 import unittest
 
 from pcta.constants import (
-    CIRCLES_PER_SEED,
+    HEPTAGRAM_VERTICES,
+    NOMINAL_CIRCLES_PER_SEED,
     SEED_ROUTING_STEP,
     coherence_primes_up_to,
     is_coherence_prime,
@@ -12,10 +13,12 @@ from pcta.constants import (
 )
 
 
-class TestCompositionCounts(unittest.TestCase):
-    def test_canonical_layer2_counts(self):
-        # Stack map row 2: 7 circles per seed; {7/3} composes circles -> seed.
-        self.assertEqual(CIRCLES_PER_SEED, 7)
+class TestRoutingMotif(unittest.TestCase):
+    def test_routing_motif(self):
+        # The heptagram is the routing motif (nominal n=7, {7/3}); it is NOT a
+        # required circle count — composition counts are variable.
+        self.assertEqual(HEPTAGRAM_VERTICES, 7)
+        self.assertEqual(NOMINAL_CIRCLES_PER_SEED, 7)
         self.assertEqual(SEED_ROUTING_STEP, 3)
 
 

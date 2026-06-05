@@ -6,12 +6,14 @@ This file gives AI assistants context needed to work effectively in this reposit
 
 ## What This Repo Is
 
-`pcta` (pip package: **`pcta`**, v0.1.0) is the **greenfield seed layer** of
-The Interdependency's prime-tensor compute family. It takes layer-1 (`pcna`)
-**circle-tensors** and organizes **7 circles into a seed** — the seed is itself
-a tensor — producing structural **motion** that the inference cap (`zfae`,
-runtime in `a0`) consumes alongside pcna's trained weights. Zero runtime
-dependencies, pure stdlib.
+`pcta` (pip package: **`pcta`**, v0.1.0) is the **seed layer** of The
+Interdependency's prime-tensor compute family — **PCTA, Prime Circled Tensor
+Architecture**. It covers circles carried by UCNS objects and composes them into
+seeds: it takes layer-1 (`pcna`) **circle-tensors** and organizes a **variable**
+number of them into a seed — the seed is itself a tensor — producing structural
+**motion** that PTCA (layer 3) folds into cores and the inference cap (`zfae`,
+runtime in `a0`) ultimately consumes alongside pcna's trained weights. Zero
+runtime dependencies, pure stdlib.
 
 <!-- BEGIN GENERATED:manifest -->
 <!-- Generated from pyproject + repo tree by .agents/skills/manifest/generate.py — DO NOT EDIT BY HAND. Refresh with `python .agents/skills/manifest/generate.py --write`. -->
@@ -20,7 +22,7 @@ dependencies, pure stdlib.
 |---|---|
 | Package | `pcta` |
 | Version | `0.1.0` |
-| Description | PCTA — prime-tensor stack layer 2: composes circle-tensors into seeds (7 circles per seed) |
+| Description | PCTA — Prime Circled Tensor Architecture: composes UCNS-carried circle-tensors into seeds (prime-tensor stack layer 2) |
 | Status | hmmm |
 | Python | >=3.9 |
 | License | AGPL-3.0-or-later |
@@ -54,19 +56,21 @@ The canonical role-and-boundary map is the **single source of truth**:
 continuity and moves no theorem / proof / empirical status between repos.
 
 ```
-PCNA (tensors + backprop) ─► weights ┐
-PCTA (circles → seeds) ─┐            ├─► ZFAE (inference) ─► output
-PTCA (seeds → core)  ───┴─► motion ──┘
-PCEA — guardian: seals the weights / state (orthogonal; not a layer)
+PCNA (tensors → circles, backprop) ─► circles ─► PCTA (circles → seeds)
+  ─► seeds ─► PTCA (seeds → core) ─► cores ─► a0(zfae) inference
+PCEA — guardian: last-state-as-key encryption at every layer (orthogonal)
 ```
 
-| # | Layer | Repo | Role |
-|---|-------|------|------|
-| 1 | Tensor / Circle | `pcna` | Creates prime-indexed tensors; owns **back-propagation** (only differentiable layer); 7 tensors/circle → **weights** |
-| **2** | **Seed** | **`pcta` (this repo)** | **Organizes circle-tensors into seeds; 7 circles/seed → structural motion** |
-| 3 | Core | `ptca` / `ptca-lib` | Organizes seeds into a core → structural motion |
-| — | Inference | `zfae` (runtime in `a0`) | Reads pcna weights + pcta/ptca motion |
-| — | Guardian | `pcea` | Encryption / privacy seal — orthogonal, not a layer |
+Composition counts are **variable** at every level — the only invariant is that
+every circle, seed, and core is itself a tensor.
+
+| # | Layer | Repo | Expansion | Role |
+|---|-------|------|-----------|------|
+| 1 | Tensor / Circle | `pcna` | Prime Circle Neural Architecture | Arranges tensors as **circles** in a standard back-propagating NN (only differentiable layer); offers circles to PCTA → **weights** |
+| **2** | **Seed** | **`pcta` (this repo)** | **Prime Circled Tensor Architecture** | **Composes UCNS-carried circles into seeds; offers seeds to PTCA → structural motion** |
+| 3 | Core | `ptca` / `ptca-lib` | Prime Tensor Core Architecture | Composes seeds into **cores**; offers cores to `a0(zfae)` → structural motion |
+| — | Inference | `zfae` (runtime in `a0`) | Zeta Function Alpha Echo | Uses pcna tensors as weights; pcna circles / pcta seeds / ptca cores as phase-harmonic propagation + auditing |
+| — | Guardian | `pcea` | Prime Circular Encryption Algorithm | "Last state as key for this state" encryption at every layer — orthogonal, not a layer |
 
 ---
 
@@ -75,9 +79,9 @@ PCEA — guardian: seals the weights / state (orthogonal; not a layer)
 ```
 pcta/
   __init__.py     Public surface (re-exports below) + __version__
-  constants.py    CIRCLES_PER_SEED=7, SEED_ROUTING_STEP=3 ({7/3}), coherence-prime guard
-  compose.py      heptagram_order, compose_seed (the ⊠ operator), build_seed, seed_motion
-  tensor.py       CircleTensor (opaque layer-1 carrier), Seed (produced tensor), SeedMotion
+  constants.py    routing motif (HEPTAGRAM_VERTICES, SEED_ROUTING_STEP={7/3}), coherence-prime guard
+  compose.py      heptagram_order, compose_seed (the ⊠ operator; variable count), build_seed, seed_motion
+  tensor.py       CircleTensor (opaque UCNS-carried layer-1 tensor), Seed (produced tensor), SeedMotion
 
 tests/            stdlib unittest suite (also runs under pytest)
   test_constants.py   composition counts + coherence-prime ladder (incl. p=4373 regression)
@@ -126,33 +130,37 @@ verifies the vendored `generate.py` checksum and that the manifest block is in s
 |-------|-------|
 | Objects | `CircleTensor`, `Seed`, `SeedMotion` |
 | Composition | `compose_seed`, `build_seed`, `seed_motion`, `heptagram_order` |
-| Constants / guard | `CIRCLES_PER_SEED`, `HEPTAGRAM_VERTICES`, `SEED_ROUTING_STEP`, `is_coherence_prime`, `coherence_primes_up_to`, `nth_coherence_prime` |
+| Constants / guard | `NOMINAL_CIRCLES_PER_SEED`, `HEPTAGRAM_VERTICES`, `SEED_ROUTING_STEP`, `is_coherence_prime`, `coherence_primes_up_to`, `nth_coherence_prime` |
 
-- `compose_seed(circles)` — the structural `⊠` operator: assigns the `{7/3}`
-  heptagram anchor order and grafts circles into a `Seed`. Requires exactly 7
-  circles unless `strict=False` (partial seeds fall back to identity order).
+- `compose_seed(circles)` — the structural `⊠` operator: assigns the
+  `{n/3}` star-polygon anchor order (the `{7/3}` heptagram for the nominal
+  `n=7`) and grafts a **variable** number of circles into a `Seed`. Falls back
+  to identity order when `gcd(step, n) != 1`.
 - `seed_motion(seed)` — the structural **motion** handed upward: identity +
-  heptagram order + circle identities. No weights, no gradients.
+  star-polygon order + circle identities. No weights, no gradients.
 
 ---
 
 ## Key Conventions & Gotchas
 
+- **Variable composition.** A seed may carry any number of circles; the only
+  invariant is that every circle is a tensor and the seed is itself a tensor.
+  `NOMINAL_CIRCLES_PER_SEED`/`HEPTAGRAM_VERTICES` describe the routing motif, not
+  a required count. Do not reintroduce a fixed circle count.
 - **Structural / non-differentiable.** Composition creates no autodiff node;
   `requires_grad` is always `False`. Back-propagation lives **only** in `pcna`
   (layer 1). Do not add gradient logic here — that inverts the stack boundary.
-- **Circles are opaque.** A circle's internal `{7/2}` structure is layer-1's
-  business. pcta carries the circle payload losslessly and never reads into it.
+- **Circles are opaque.** A circle's internal structure is `pcna`'s business.
+  pcta carries the circle payload losslessly and never reads into it.
 - **No runtime dependencies** — stdlib only. Keep it that way.
 - **Coherence-prime rule is mirrored, not imported.** `constants.is_coherence_prime`
   reproduces `interdependent_lib.coherence_primes` verbatim (recursive ancestry,
   square-free kernel; includes the `p=4373` regression). Importing the aggregator
   would invert the dependency graph.
-- **`hmmm` — do not encode as fact** (per org doctrine):
-  - the **PCTA acronym expansion** (no agreed expansion; an early README read
-    "prime circle tensor architecture" — *not* canonical);
-  - **seeds per core** (a layer-3 / `ptca` concern; stack map lists it `hmmm`);
-  - the **formal definition of "motion"** (described by role only).
+- **`hmmm` — do not encode as fact** (per org doctrine): the **formal definition
+  of "motion"** (described by role only). The PCTA acronym expansion (Prime
+  Circled Tensor Architecture) and the variable-count rule were resolved by the
+  maintainer on 2026-06-05.
 - **Manifest block is machine-owned.** Never hand-edit between the
   `BEGIN/END GENERATED:manifest` markers; run `generate.py --write`.
 

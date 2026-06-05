@@ -1,23 +1,27 @@
-"""Frozen composition counts, heptagram routing, and the coherence-prime guard.
+"""Composition routing and the coherence-prime guard.
 
-`pcta` is **layer 2** of the prime-tensor stack (circles -> seeds). The single
-source of truth for the stack's role-and-boundary map is
-`The-Interdependency/interdependent-lib : docs/prime-tensor-stack.md` — this repo
-*cites* it and does not import it. No theorem / proof / empirical status moves
-between repos by naming these terms.
+`pcta` (**PCTA — Prime Circled Tensor Architecture**) is **layer 2** of the
+prime-tensor stack: it covers circles carried by UCNS objects and composes them
+into **seeds**. The single source of truth for the stack's role-and-boundary map
+is `The-Interdependency/interdependent-lib : docs/prime-tensor-stack.md` — this
+repo *cites* it and does not import it. No theorem / proof / empirical status
+moves between repos by naming these terms.
 
-What is canonical here (from the stack map):
-  - a seed is composed of **7 circles** (`CIRCLES_PER_SEED`), and the seed is
-    itself a tensor;
-  - the composition is **structural / non-differentiable** — back-propagation
-    lives ONLY in layer 1 (`pcna`). pcta organizes; it does not train.
+What is canonical here:
+  - PCNA arranges tensors as **circles** (each circle is itself a tensor) in a
+    standard back-propagating neural architecture and offers those circles to
+    PCTA; **PCTA composes circles into seeds** (each seed is itself a tensor) and
+    offers those seeds to PTCA (Prime Tensor Core Architecture), which composes
+    seeds into **cores** for `a0(zfae)`.
+  - **Composition counts are VARIABLE.** The number of circles in a seed is not
+    fixed — the only invariant is that every circle is a tensor and every seed is
+    itself a tensor. (`HEPTAGRAM_VERTICES` / `SEED_ROUTING_STEP` describe the
+    routing *motif*, not a required circle count.)
+  - The composition is **structural / non-differentiable** — back-propagation
+    lives ONLY in PCNA (layer 1). pcta organizes; it does not train.
 
-What is deliberately NOT fixed here (marked `hmmm`, per org doctrine — do not
-guess):
-  - the **acronym expansion** of "PCTA" (no agreed expansion across the org);
-  - **seeds per core** (layer 3 / `ptca`'s concern; `prime_core` uses 157
-    experimentally, the stack map lists it as `hmmm`);
-  - the formal definition of "motion" (the structural output handed to ZFAE).
+Still `hmmm` (per org doctrine — do not guess): the formal definition of
+"motion" (the structural / phase-harmonic output PTCA cores hand to ZFAE).
 """
 from __future__ import annotations
 
@@ -27,9 +31,9 @@ from typing import List
 # id: pcta_constants
 #   module_name: constants
 #   module_kind: engine
-#   summary: frozen layer-2 composition counts, heptagram routing step, and the recursive coherence-prime guard
+#   summary: layer-2 heptagram routing motif and the recursive coherence-prime guard (composition counts are variable)
 #   owner: Erin Patrick Spencer
-#   public_surface: CIRCLES_PER_SEED, SEED_ROUTING_STEP, HEPTAGRAM_VERTICES, is_coherence_prime, coherence_primes_up_to, nth_coherence_prime
+#   public_surface: NOMINAL_CIRCLES_PER_SEED, SEED_ROUTING_STEP, HEPTAGRAM_VERTICES, is_coherence_prime, coherence_primes_up_to, nth_coherence_prime
 #   internal_surface: _build_coherence_up_to, _is_prime, _prime_factors
 #   auth_boundary: none
 #   storage_boundary: none
@@ -41,22 +45,29 @@ from typing import List
 #   rollback: none (greenfield module; revert the file)
 #   requires: coherence_primes (mirrored from interdependent_lib, NOT imported — importing the aggregator would invert the dependency graph)
 #   since: 2026-06-05 (greenfield scaffold of the layer-2 seed package)
-#   unresolved: PCTA acronym expansion = hmmm; seeds-per-core = hmmm (layer-3 concern); formal definition of "motion" = hmmm
+#   unresolved: formal definition of "motion" = hmmm (PCTA acronym + variable-count rule resolved by maintainer 2026-06-05)
 # === END MODULE_BUILD ===
 
-# --- canonical layer-2 composition counts (stack map, row 2) -----------------
-CIRCLES_PER_SEED: int = 7   # 7 circles per seed; the seed is itself a tensor
-HEPTAGRAM_VERTICES: int = 7  # heptagram routing operates on 7 vertices
+# --- routing motif (NOT a required circle count) -----------------------------
+# Composition counts are variable: a seed may carry any number of circles, the
+# only invariant being that every circle is a tensor and the seed is itself a
+# tensor. The heptagram is the routing *motif* (7 phase vertices), not a cap on
+# how many circles a seed composes.
+HEPTAGRAM_VERTICES: int = 7   # heptagram phase vertices (routing motif)
+NOMINAL_CIRCLES_PER_SEED: int = 7  # nominal heptagram base case; NOT a hard limit
 
-# --- heptagram routing step --------------------------------------------------
-# {7/3} composes circles -> seed. This mirrors `PTCA/prime_core`'s
-# SEED_ROUTING_STEP exactly; the circle-level step ({7/2}, tensors -> circle)
-# belongs to layer 1 (`pcna`), not here.
+# --- routing step ------------------------------------------------------------
+# {n/3} assigns the star-polygon anchor order over however many circles a seed
+# carries. For the nominal n=7 case this is the {7/3} heptagram, mirroring
+# `PTCA/prime_core`'s SEED_ROUTING_STEP; the circle-level step ({7/2}, tensors ->
+# circle) belongs to layer 1 (`pcna`), not here.
 SEED_ROUTING_STEP: int = 3
 
 # --- coherence-prime ladder (consciousness primes) ---------------------------
-# The membership rule is *recursive*: a prime's kernel (p-1)//4 must be
-# square-free and factor only into earlier coherence primes (genealogical
+# Prime-consciousness theory: primes whose (p-1) factorization is square-free are
+# more likely to fall into stability as part of a triadic recursion set. The
+# membership rule encodes that as a *recursive* test: a prime's kernel (p-1)//4
+# must be square-free and factor only into earlier coherence primes (genealogical
 # ancestry), not into a fixed pre-listed universe. A frozen-universe cap silently
 # disagrees with this rule for the first time at p=4373, whose kernel 1093 is
 # itself a coherence prime above any small cap.
@@ -146,9 +157,9 @@ def coherence_primes_up_to(limit: int) -> List[int]:
 def nth_coherence_prime(n: int) -> int:
     """The ``n``-th coherence prime, 0-indexed (``nth_coherence_prime(0) == 3``).
 
-    Used to address seeds on the coherence ladder. Note: *how many* seeds a core
-    carries (seeds-per-core) is layer-3's concern and is `hmmm` — this helper
-    only enumerates the ladder, it does not assert a core size.
+    Used to address seeds on the coherence ladder. This helper only enumerates
+    the ladder; it asserts no composition count (those are variable — every
+    composed object is simply itself a tensor).
     """
     if n < 0:
         raise ValueError("n must be non-negative")

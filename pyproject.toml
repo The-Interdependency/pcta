@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "pcta"
 version = "0.1.0"
-description = "PCTA — prime-tensor stack layer 2: composes circle-tensors into seeds (7 circles per seed)"
+description = "PCTA — Prime Circled Tensor Architecture: composes UCNS-carried circle-tensors into seeds (prime-tensor stack layer 2)"
 readme = "README.md"
 authors = [
   { name = "Erin Patrick Spencer", email = "wayseer@interdependentway.org" },

@@ -4,7 +4,6 @@ from __future__ import annotations
 import unittest
 
 from pcta import (
-    CIRCLES_PER_SEED,
     CircleTensor,
     Seed,
     SeedMotion,
@@ -30,37 +29,52 @@ class TestHeptagramOrder(unittest.TestCase):
 
 
 class TestComposeSeed(unittest.TestCase):
-    def _seven_circles(self):
-        return [CircleTensor(payload=f"w{i}", identity=f"c{i}") for i in range(7)]
+    def _circles(self, n=7):
+        return [CircleTensor(payload=f"w{i}", identity=f"c{i}") for i in range(n)]
 
-    def test_strict_requires_seven(self):
+    def test_empty_rejected(self):
         with self.assertRaises(ValueError):
-            compose_seed(self._seven_circles()[:3])  # too few, strict default
+            compose_seed([])  # a seed needs at least one circle
 
     def test_compose_assigns_heptagram_anchors(self):
-        seed = compose_seed(self._seven_circles())
+        seed = compose_seed(self._circles(7))
         self.assertIsInstance(seed, Seed)
-        self.assertEqual(seed.n_circles, CIRCLES_PER_SEED)
+        self.assertEqual(seed.n_circles, 7)
         self.assertEqual(seed.anchor_order, tuple(heptagram_order(3)))
-        # input circle i lands at heptagram position order[i]
+        # input circle i lands at the {7/3} heptagram position order[i]
         order = heptagram_order(3)
         for i in range(7):
             self.assertEqual(seed.at(order[i]).identity, f"c{i}")
 
+    def test_variable_circle_counts(self):
+        # Composition counts are variable — any number of circles composes; the
+        # only invariant is that the seed is itself a tensor.
+        for n in (1, 2, 3, 5, 7, 13):
+            seed = compose_seed(self._circles(n))
+            self.assertEqual(seed.n_circles, n)
+            # every circle is recoverable losslessly at some anchor
+            self.assertEqual(
+                {c.identity for c in seed.circles},
+                {f"c{i}" for i in range(n)},
+            )
+
+    def test_star_polygon_when_coprime_else_identity(self):
+        # n=5, step 3: gcd(3,5)==1 -> {5/3} star order
+        self.assertEqual(compose_seed(self._circles(5)).anchor_order,
+                         tuple(heptagram_order(3, 5)))
+        # n=3, step 3: gcd(3,3)!=1 -> identity order
+        self.assertEqual(compose_seed(self._circles(3)).anchor_order, (0, 1, 2))
+
     def test_lossless_payload_roundtrip(self):
-        seed = compose_seed(self._seven_circles())
+        seed = compose_seed(self._circles(7))
         payloads = {c.identity: c.payload for c in seed.circles}
         self.assertEqual(payloads["c0"], "w0")
         self.assertEqual(payloads["c6"], "w6")
 
     def test_non_differentiable(self):
-        seed = compose_seed(self._seven_circles())
+        seed = compose_seed(self._circles(7))
         self.assertFalse(seed.requires_grad)
         self.assertFalse(seed.circles[0].requires_grad)
-
-    def test_partial_seed_allowed(self):
-        seed = compose_seed(self._seven_circles()[:3], strict=False)
-        self.assertEqual(seed.n_circles, 3)
 
 
 class TestBuildSeedAndMotion(unittest.TestCase):

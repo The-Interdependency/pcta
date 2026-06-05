@@ -11,7 +11,7 @@ from __future__ import annotations
 from math import gcd
 from typing import List, Optional, Sequence
 
-from .constants import CIRCLES_PER_SEED, HEPTAGRAM_VERTICES, SEED_ROUTING_STEP
+from .constants import HEPTAGRAM_VERTICES, SEED_ROUTING_STEP
 from .tensor import CircleTensor, Seed, SeedMotion
 
 
@@ -35,33 +35,25 @@ def compose_seed(
     *,
     routing_step: int = SEED_ROUTING_STEP,
     identity: Optional[str] = None,
-    strict: bool = True,
 ) -> Seed:
     """Compose circle-tensors into a seed (the structural ``⊠`` operator).
 
-    Each circle is (re)assigned an ``anchor`` from the ``{7/routing_step}``
-    heptagram order, preserving input order at the assigned positions. Structural
-    only — no autodiff node is created.
-
-    With ``strict=True`` (default) exactly ``CIRCLES_PER_SEED`` (7) circles are
-    required, matching the canonical layer-2 count. Pass ``strict=False`` to
-    compose a smaller/partial seed (e.g. for fast tests); the heptagram order
-    then adapts to the actual circle count and still must form a single cycle.
+    The circle count is **variable** — a seed may carry any number of circles
+    (the invariant is only that every circle is a tensor and the seed is itself a
+    tensor). Each circle is (re)assigned an ``anchor`` from the
+    ``{n/routing_step}`` star-polygon order, preserving input order at the
+    assigned positions; for the nominal ``n=7`` case this is the ``{7/3}``
+    heptagram. Structural only — no autodiff node is created.
     """
     circles = list(circles)
     n = len(circles)
-    if strict and n != CIRCLES_PER_SEED:
-        raise ValueError(
-            f"a seed requires exactly {CIRCLES_PER_SEED} circles "
-            f"(got {n}); pass strict=False to compose a partial seed"
-        )
     if n == 0:
         raise ValueError("cannot compose a seed from zero circles")
 
-    # The heptagram is a 7-vertex construct: apply the {n/step} star order when
-    # it forms a single cycle (the canonical n=7 case), else (partial seeds) fall
-    # back to identity order — the star polygon is undefined when step and n
-    # share a factor.
+    # Apply the {n/step} star-polygon order when it forms a single cycle
+    # (gcd(step, n) == 1, e.g. the nominal {7/3} heptagram); otherwise fall back
+    # to identity order — the star polygon is undefined when step and n share a
+    # factor.
     if gcd(routing_step, n) == 1:
         order = heptagram_order(routing_step, n)
     else:
@@ -84,24 +76,25 @@ def build_seed(
     *,
     routing_step: int = SEED_ROUTING_STEP,
     identity: Optional[str] = None,
-    strict: bool = True,
 ) -> Seed:
     """Convenience builder: wrap raw circle payloads as ``CircleTensor``s and
     compose them into a seed. ``payloads[i]`` becomes the i-th input circle with
     identity ``"{identity}.c{i}"`` (or ``"c{i}"`` if no seed identity is given).
+    Any number of payloads is accepted (composition counts are variable).
     """
     prefix = f"{identity}." if identity else ""
     circles = [
         CircleTensor(payload=p, identity=f"{prefix}c{i}")
         for i, p in enumerate(payloads)
     ]
-    return compose_seed(circles, routing_step=routing_step, identity=identity, strict=strict)
+    return compose_seed(circles, routing_step=routing_step, identity=identity)
 
 
 def seed_motion(seed: Seed) -> SeedMotion:
-    """Extract the structural **motion** a seed hands upward (to layer 3 / ZFAE).
+    """Extract the structural **motion** a seed hands upward (toward PTCA's core
+    composition and ultimately ZFAE inference).
 
-    Returns the observable structure only — identity + heptagram order — never
+    Returns the observable structure only — identity + star-polygon order — never
     weights or gradients. "Motion" is defined here by role; its formal
     definition is `hmmm` in the stack canon.
     """
