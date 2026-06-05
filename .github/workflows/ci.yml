@@ -1,0 +1,30 @@
+name: ci
+
+# Layer-2 (pcta) test gate. Pure stdlib unittest — no runtime deps to install.
+# The test classes also run under pytest (declared as the `dev` extra).
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.9', '3.11', '3.13']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Editable install
+        run: python -m pip install -e .
+      - name: Import smoke test
+        run: python -c "import pcta; print(pcta.__version__)"
+      - name: Run unittest suite
+        run: python -m unittest discover -s tests -v

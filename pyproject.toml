@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pcta"
+version = "0.1.0"
+description = "PCTA — prime-tensor stack layer 2: composes circle-tensors into seeds (7 circles per seed)"
+readme = "README.md"
+authors = [
+  { name = "Erin Patrick Spencer", email = "wayseer@interdependentway.org" },
+]
+license = { text = "AGPL-3.0-or-later" }
+requires-python = ">=3.9"
+dependencies = []
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+]
+
+[project.urls]
+Homepage = "https://interdependentway.org"
+Repository = "https://github.com/The-Interdependency/pcta"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["pcta*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
