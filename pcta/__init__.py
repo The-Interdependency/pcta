@@ -18,7 +18,9 @@ docs/prime-tensor-stack.md` — cited, not imported):
   - naming another repo's terms transfers **no** theorem / proof / empirical
     status. The coherence-prime rule is *mirrored*, never imported.
 
-`hmmm` (unresolved — do not encode as fact): the formal definition of "motion".
+"Motion" (the structural output a seed hands upward) is formally the Fickian
+gradient flux ``J = −D ∇φ`` (Fick's first law) — structure diffusing down its
+field gradient; structural / non-differentiable. No stack `hmmm` remains.
 """
 from __future__ import annotations
 

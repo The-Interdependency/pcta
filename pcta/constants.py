@@ -20,8 +20,11 @@ What is canonical here:
   - The composition is **structural / non-differentiable** — back-propagation
     lives ONLY in PCNA (layer 1). pcta organizes; it does not train.
 
-Still `hmmm` (per org doctrine — do not guess): the formal definition of
-"motion" (the structural / phase-harmonic output PTCA cores hand to ZFAE).
+"Motion" — the structural / phase-harmonic output a seed hands upward — is
+formally the **Fickian gradient flux** ``J = −D ∇φ`` (Fick's first law:
+structure diffuses down its field gradient). It is structural / non-differentiable
+(the ``∇φ`` is a field gradient, not an autodiff gradient). No stack `hmmm`
+remains.
 """
 from __future__ import annotations
 
@@ -45,7 +48,7 @@ from typing import List
 #   rollback: none (greenfield module; revert the file)
 #   requires: coherence_primes (mirrored from interdependent_lib, NOT imported — importing the aggregator would invert the dependency graph)
 #   since: 2026-06-05 (greenfield scaffold of the layer-2 seed package)
-#   unresolved: formal definition of "motion" = hmmm (PCTA acronym + variable-count rule resolved by maintainer 2026-06-05)
+#   unresolved: none (PCTA acronym, variable-count rule, and "motion" = Fickian flux J = −D ∇φ all resolved by maintainer)
 # === END MODULE_BUILD ===
 
 # --- routing motif (NOT a required circle count) -----------------------------

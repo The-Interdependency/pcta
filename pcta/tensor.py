@@ -90,12 +90,13 @@ class SeedMotion:
     """The structural **motion** a seed hands upward (to layer-3 PTCA core
     composition, and ultimately ZFAE inference).
 
-    "Motion" is described here by *role* — the structural arrangement a seed
-    contributes — and its formal definition is `hmmm` in the stack canon (do not
-    over-specify it). This carrier captures the observable structure only: the
-    seed's identity and the star-polygon order its circles were routed in. It
-    holds no weights and no gradient (those are pcna's `weights`, a separate
-    channel).
+    Formally, motion is the **Fickian flux** of the seed's composed field across
+    the compose boundary — Fick's first law ``J = −D ∇φ`` (structure diffuses
+    down its field gradient). This carrier captures the observable structure that
+    flux rides on: the seed's identity and the star-polygon order its circles
+    were routed in. It holds no weights and no autodiff gradient (those are
+    pcna's `weights`, a separate channel); the ``∇φ`` is the spatial field
+    gradient that drives diffusion, not a backprop gradient.
     """
 
     seed_identity: Optional[str]

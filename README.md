@@ -75,9 +75,14 @@ motion = seed_motion(seed)   # structural motion handed upward (no weights/grads
   a triadic recursion set. Importing the aggregator would invert the dependency
   graph.
 
-## `hmmm` (unresolved — do not encode as fact)
+## "Motion" — formal definition
 
-- the **formal definition of "motion"** (described by role only).
+The structural output a seed hands upward ("motion") is formally the **Fickian
+gradient flux**, Fick's first law `J = −D ∇φ`: the seed's composed field
+diffuses down its gradient (`D` diffusivity, `φ` field, `∇φ` gradient). It is
+**structural / non-differentiable** — the `∇φ` is a field gradient, not an
+autodiff gradient (back-propagation lives only in `pcna`). This was the stack's
+last open `hmmm`; **none remains**.
 
 ## License
 

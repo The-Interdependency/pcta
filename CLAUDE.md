@@ -157,10 +157,12 @@ verifies the vendored `generate.py` checksum and that the manifest block is in s
   reproduces `interdependent_lib.coherence_primes` verbatim (recursive ancestry,
   square-free kernel; includes the `p=4373` regression). Importing the aggregator
   would invert the dependency graph.
-- **`hmmm` — do not encode as fact** (per org doctrine): the **formal definition
-  of "motion"** (described by role only). The PCTA acronym expansion (Prime
-  Circled Tensor Architecture) and the variable-count rule were resolved by the
-  maintainer on 2026-06-05.
+- **"Motion" is formally the Fickian gradient flux** `J = −D ∇φ` (Fick's first
+  law: structure diffuses down its field gradient; structural /
+  non-differentiable — the `∇φ` is a field gradient, not an autodiff gradient).
+  The PCTA acronym expansion (Prime Circled Tensor Architecture), the
+  variable-count rule, and this motion definition were all resolved by the
+  maintainer; **no stack `hmmm` remains**.
 - **Manifest block is machine-owned.** Never hand-edit between the
   `BEGIN/END GENERATED:manifest` markers; run `generate.py --write`.
 

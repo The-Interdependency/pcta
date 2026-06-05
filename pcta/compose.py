@@ -95,8 +95,9 @@ def seed_motion(seed: Seed) -> SeedMotion:
     composition and ultimately ZFAE inference).
 
     Returns the observable structure only — identity + star-polygon order — never
-    weights or gradients. "Motion" is defined here by role; its formal
-    definition is `hmmm` in the stack canon.
+    weights or autodiff gradients. Formally, motion is the Fickian gradient flux
+    ``J = −D ∇φ`` (Fick's first law) — the seed's composed field diffusing down
+    its gradient; this carrier holds the structure that flux rides on.
     """
     return SeedMotion(
         seed_identity=seed.identity,
