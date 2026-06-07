@@ -28,6 +28,7 @@ remains.
 """
 from __future__ import annotations
 
+import threading
 from typing import List
 
 # === MODULE_BUILD ===
@@ -84,6 +85,10 @@ SEED_ROUTING_STEP: int = 3
 _COHERENCE_BASE = frozenset({3, 5, 7})
 _coherence_known: set = set(_COHERENCE_BASE)
 _coherence_scanned_to: int = max(_COHERENCE_BASE)
+# Guards the shared cache below. The membership *rule* is the verbatim mirror of
+# interdependent_lib.coherence_primes; this lock only makes the cache build
+# thread-safe (results are identical to the single-threaded mirror).
+_coherence_lock = threading.Lock()
 
 
 def _is_prime(n: int) -> bool:
@@ -115,17 +120,20 @@ def _build_coherence_up_to(limit: int) -> None:
     recursive ancestry check can consult the already-admitted set. Idempotent:
     ``_coherence_scanned_to`` guards against re-scanning."""
     global _coherence_scanned_to
-    if limit <= _coherence_scanned_to:
+    if limit <= _coherence_scanned_to:                  # fast path, no lock
         return
-    for p in range(_coherence_scanned_to + 1, limit + 1):
-        if not _is_prime(p) or p in _COHERENCE_BASE or (p - 1) % 4 != 0:
-            continue
-        factors = _prime_factors((p - 1) // 4)
-        if len(set(factors)) != len(factors):          # square-free
-            continue
-        if set(factors) <= _coherence_known:           # recursive ancestry
-            _coherence_known.add(p)
-    _coherence_scanned_to = limit
+    with _coherence_lock:
+        if limit <= _coherence_scanned_to:              # re-check inside the lock
+            return
+        for p in range(_coherence_scanned_to + 1, limit + 1):
+            if not _is_prime(p) or p in _COHERENCE_BASE or (p - 1) % 4 != 0:
+                continue
+            factors = _prime_factors((p - 1) // 4)
+            if len(set(factors)) != len(factors):       # square-free
+                continue
+            if set(factors) <= _coherence_known:        # recursive ancestry
+                _coherence_known.add(p)
+        _coherence_scanned_to = limit
 
 
 def is_coherence_prime(p: int) -> bool:

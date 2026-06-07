@@ -77,8 +77,9 @@ class Seed:
         raise KeyError(anchor)
 
     def circle_tensors(self) -> List[CircleTensor]:
-        """The hosted circles in heptagram anchor order."""
-        return [self.at(a) for a in self.anchor_order]
+        """The hosted circles in star-polygon anchor order (O(n))."""
+        by_anchor = {c.anchor: c for c in self.circles}
+        return [by_anchor[a] for a in self.anchor_order]
 
     def __repr__(self) -> str:  # pragma: no cover - convenience only
         ident = f" {self.identity!r}" if self.identity else ""
