@@ -86,5 +86,5 @@ last open `hmmm`; **none remains**.
 
 ## License
 
-AGPL-3.0-or-later, dual-licensed with a commercial option. See `LICENSE` and
-`LICENSE-COMMERCIAL.md`. Copyright (c) 2026 Erin Patrick Spencer.
+MIT. See `LICENSE`. Copyright (c) 2026 Erin Patrick Spencer.
+Relicensed from AGPL-3.0-or-later to MIT for frictionless adoption.
