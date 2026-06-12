@@ -25,7 +25,7 @@ runtime dependencies, pure stdlib.
 | Description | PCTA — Prime Circled Tensor Architecture: composes UCNS-carried circle-tensors into seeds (prime-tensor stack layer 2) |
 | Status | hmmm |
 | Python | >=3.9 |
-| License | MIT |
+| License | MPL-2.0 |
 | Build backend | `setuptools.build_meta` |
 | Author(s) | Erin Patrick Spencer <wayseer@interdependentway.org> |
 | Repository | https://github.com/The-Interdependency/pcta |
@@ -43,8 +43,9 @@ runtime dependencies, pure stdlib.
 > markers; run `python .agents/skills/manifest/generate.py --write` after
 > changing version/deps/layout.
 
-**License:** MIT (see `LICENSE`). Copyright (c) 2026 Erin Patrick Spencer.
-Relicensed from AGPL-3.0-or-later to MIT for frictionless adoption.
+**License:** MPL-2.0 (weak copyleft — embed anywhere, but changes to these files
+must be published; see `LICENSE`). Copyright (c) 2026 Erin Patrick Spencer.
+Relicensed from MIT (which had itself superseded AGPL-3.0-or-later).
 
 ---
 
@@ -92,7 +93,7 @@ tests/            stdlib unittest suite (also runs under pytest)
   manifest-check.yml  living-spec drift gate (vendored generate.py checksum + --check)
 
 .agents/skills/   vendored org skills (manifest, meta-module-build, msdmd, test-build)
-pyproject.toml    setuptools; name=pcta; MIT; py>=3.9; zero deps; dev=[pytest]
+pyproject.toml    setuptools; name=pcta; MPL-2.0; py>=3.9; zero deps; dev=[pytest]
 README.md  LICENSE
 ```
 
@@ -186,7 +187,7 @@ verifies the vendored `generate.py` checksum and that the manifest block is in s
 - Feature branches: `feat/<desc>`, `fix/<desc>`, `docs/<desc>`, `chore/<desc>`
 - Commit style: Conventional Commits (`feat(pcta):`, `fix(compose):`, etc.)
 - Author: Erin Patrick Spencer (wayseer@interdependentway.org)
-- License: MIT
+- License: MPL-2.0 (weak copyleft — embed anywhere, but changes to these files must be published; relicensed from MIT)
 
 ## Agent module-build doctrine
 
