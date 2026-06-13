@@ -10,7 +10,7 @@ readme = "README.md"
 authors = [
   { name = "Erin Patrick Spencer", email = "wayseer@interdependentway.org" },
 ]
-license = { text = "MIT" }
+license = { text = "MPL-2.0" }
 requires-python = ">=3.9"
 dependencies = []
 

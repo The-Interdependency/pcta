@@ -26,7 +26,7 @@ from __future__ import annotations
 
 __version__ = "0.1.0"
 __author__ = "Erin Patrick Spencer <wayseer@interdependentway.org>"
-__license__ = "MIT"
+__license__ = "MPL-2.0"
 
 from .constants import (
     HEPTAGRAM_VERTICES,

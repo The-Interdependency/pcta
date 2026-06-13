@@ -86,5 +86,6 @@ last open `hmmm`; **none remains**.
 
 ## License
 
-MIT. See `LICENSE`. Copyright (c) 2026 Erin Patrick Spencer.
-Relicensed from AGPL-3.0-or-later to MIT for frictionless adoption.
+MPL-2.0 (weak copyleft — embed anywhere, but changes to these files must be
+published). See `LICENSE`. Copyright (c) 2026 Erin Patrick Spencer.
+Relicensed from MIT (which had itself superseded AGPL-3.0-or-later).
