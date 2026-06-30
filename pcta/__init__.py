@@ -1,3 +1,4 @@
+# ratios: loc_comments=35:23 imports_exports=4:1 calls_definitions=1:0
 """pcta — **PCTA: Prime Circled Tensor Architecture** (prime-tensor stack layer 2).
 
 Covers circles carried by UCNS objects and composes them into **seeds**. It
@@ -63,3 +64,4 @@ __all__ = [
     "coherence_primes_up_to",
     "nth_coherence_prime",
 ]
+# ratios: loc_comments=35:23 imports_exports=4:1 calls_definitions=1:0

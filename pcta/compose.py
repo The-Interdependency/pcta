@@ -1,3 +1,4 @@
+# ratios: loc_comments=56:36 imports_exports=5:4 calls_definitions=21:4
 """The layer-2 composition operator: circles -> seed.
 
 `compose_seed` is the structural ``⊠`` operator for layer 2. It is **purely
@@ -105,3 +106,4 @@ def seed_motion(seed: Seed) -> SeedMotion:
         anchor_order=seed.anchor_order,
         circle_identities=tuple(c.identity for c in seed.circle_tensors()),
     )
+# ratios: loc_comments=56:36 imports_exports=5:4 calls_definitions=21:4
