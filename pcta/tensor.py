@@ -1,3 +1,4 @@
+# ratios: loc_comments=47:37 imports_exports=3:3 calls_definitions=6:10
 """Layer-2 tensor objects: the opaque circle carrier and the seed it produces.
 
 pcta consumes **circle-tensors** (layer-1 / `pcna` output — circles carried by
@@ -104,3 +105,4 @@ class SeedMotion:
     routing_step: int
     anchor_order: Tuple[int, ...]
     circle_identities: Tuple[Optional[str], ...] = field(default_factory=tuple)
+# ratios: loc_comments=47:37 imports_exports=3:3 calls_definitions=6:10

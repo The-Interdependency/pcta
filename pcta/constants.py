@@ -1,3 +1,4 @@
+# ratios: loc_comments=69:90 imports_exports=3:3 calls_definitions=20:6
 """Composition routing and the coherence-prime guard.
 
 `pcta` (**PCTA — Prime Circled Tensor Architecture**) is **layer 2** of the
@@ -180,3 +181,4 @@ def nth_coherence_prime(n: int) -> int:
         if len(ladder) > n:
             return ladder[n]
         limit *= 2
+# ratios: loc_comments=69:90 imports_exports=3:3 calls_definitions=20:6
